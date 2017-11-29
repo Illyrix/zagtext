@@ -31,7 +31,6 @@ public class ZagText extends ApplicationWindow {
     public ZagText() {
         super(null);
         this.addMenuBar();
-        this.addToolBar( SWT.FLAT );
     }
     protected void configureShell(Shell shell) {
         super.configureShell(shell);
@@ -69,7 +68,9 @@ public class ZagText extends ApplicationWindow {
         fileMenu.add( new OpenAction(this) );
         fileMenu.add( new SaveAction(this) );
         fileMenu.add( new Separator());
-        fileMenu.add( new PrintAction(this) );
+        fileMenu.add( new PrintAction(this) );;
+        fileMenu.add( new Separator());
+        fileMenu.add( new ExitAction(this) );
 
         editMenu.add( new UndoAction(this) );
         editMenu.add( new RedoAction(this) );
@@ -84,23 +85,6 @@ public class ZagText extends ApplicationWindow {
         top.add( helpMenu );
 
         return top;
-    }
-    //初始化工具栏
-    protected ToolBarManager createToolBarManager(int style) {
-        ToolBarManager toolBar = new ToolBarManager(style);
-        toolBar.add( new OpenAction(this) );
-        toolBar.add( new SaveAction(this) );
-        toolBar.add( new Separator() );
-        toolBar.add( new PrintAction(this) );
-
-        toolBar.add( new UndoAction(this) );
-        toolBar.add( new RedoAction(this) );
-        toolBar.add( new Separator() );
-        toolBar.add( new SearchAction(this) );
-        toolBar.add( new Separator() );
-        toolBar.add( new PreferenceAction(this) );
-        toolBar.add( new HelpAction(this) );
-        return toolBar;
     }
 
     public PersistentDocument getDocument() {

@@ -38,6 +38,7 @@ public class ZagText extends ApplicationWindow implements IPropertyChangeListene
         super(null);
         addMenuBar();
         preference = new PreferenceStore("editor.preference");
+        preference.addPropertyChangeListener(this);
         try {
             preference.load();
         } catch (IOException e) {
@@ -47,7 +48,10 @@ public class ZagText extends ApplicationWindow implements IPropertyChangeListene
                 ev.printStackTrace();
             }
         }
-        preference.addPropertyChangeListener(this);
+        Remote.setHost(preference.getString("Host"));
+        Remote.setName(preference.getString("Name"));
+        Remote.setPass(preference.getString("Pass"));
+        Remote.setPort(Integer.parseInt(preference.getString("Port")));
     }
     protected void configureShell(Shell shell) {
         super.configureShell(shell);
@@ -78,13 +82,16 @@ public class ZagText extends ApplicationWindow implements IPropertyChangeListene
         MenuManager top = new MenuManager();
         MenuManager fileMenu = new MenuManager("File(&F)");
         MenuManager editMenu = new MenuManager("Edit(&E)");
+        MenuManager remoteMenu = new MenuManager("Remote(&R)");
         MenuManager helpMenu = new MenuManager("Help(&H)");
 
         fileMenu.add( new OpenAction(this) );
         fileMenu.add( new SaveAction(this) );
         fileMenu.add( new SaveAsAction(this) );
         fileMenu.add( new Separator());
-        fileMenu.add( new PrintAction(this) );;
+        fileMenu.add( new PrintAction(this) );
+        fileMenu.add( new Separator() );
+        fileMenu.add( new PreferenceAction(this) );
         fileMenu.add( new Separator());
         fileMenu.add( new ExitAction(this) );
 
@@ -92,12 +99,14 @@ public class ZagText extends ApplicationWindow implements IPropertyChangeListene
         editMenu.add( new RedoAction(this) );
         editMenu.add( new Separator() );
         editMenu.add( new SearchAction(this) );
-        editMenu.add( new Separator() );
-        editMenu.add( new PreferenceAction(this) );
+
+        remoteMenu.add( new LoadRemoteAction(this) );
+        remoteMenu.add( new SaveRemoteAction(this) );
 
         helpMenu.add( new HelpAction(this) );
         top.add( fileMenu );
         top.add( editMenu ) ;
+        top.add( remoteMenu );
         top.add( helpMenu );
 
         return top;
@@ -142,6 +151,18 @@ public class ZagText extends ApplicationWindow implements IPropertyChangeListene
         if (event.getProperty().equals("Background")) {
             RGB color = (RGB)event.getNewValue();
             this.getViewer().getTextWidget().setBackground(new Color(this.getShell().getDisplay(), color));
+        }
+        if (event.getProperty().equals("Host")) {
+            Remote.setHost((String)event.getNewValue());
+        }
+        if (event.getProperty().equals("Name")) {
+            Remote.setName((String)event.getNewValue());
+        }
+        if (event.getProperty().equals("Pass")) {
+            Remote.setPass((String)event.getNewValue());
+        }
+        if (event.getProperty().equals("Port")) {
+            Remote.setPort((Integer)event.getNewValue());
         }
     }
 }

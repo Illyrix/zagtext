@@ -4,20 +4,18 @@ import com.illyrix.apps.ZagText;
 import org.eclipse.jface.action.Action;
 import org.eclipse.swt.widgets.MessageBox;
 
-import java.io.IOException;
-
-public class SaveRemoteAction extends Action {
+public class LoadRemoteAction extends Action {
     ZagText zagText;
-    public SaveRemoteAction(ZagText text) {
-        super("Save Remote");
+    public LoadRemoteAction(ZagText text) {
+        super("Load Remote");
         zagText = text;
     }
     public void run () {
         try {
-            zagText.getDocument().saveToRemote();
+            zagText.getDocument().loadFromRemote();
             MessageBox msg = new MessageBox(zagText.getShell());
             msg.setText("Success");
-            msg.setMessage("Text file has been saved.");
+            msg.setMessage("Text file has been load.");
             msg.open();
         } catch (Exception e) {
             MessageBox msg = new MessageBox(zagText.getShell());

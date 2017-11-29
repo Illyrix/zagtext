@@ -1,6 +1,7 @@
 package com.illyrix.apps.action;
 
 import com.illyrix.apps.ZagText;
+import com.illyrix.apps.dialog.FindAndReplace;
 import org.eclipse.jface.action.Action;
 
 public class SearchAction extends Action {
@@ -10,5 +11,6 @@ public class SearchAction extends Action {
         zagText = text;
     }
     public void run () {
+        new FindAndReplace(zagText, zagText.getShell()).open();
     }
 }

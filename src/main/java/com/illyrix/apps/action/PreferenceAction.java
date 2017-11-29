@@ -9,7 +9,7 @@ import org.eclipse.jface.preference.*;
 public class PreferenceAction extends Action {
     ZagText zagText;
     public PreferenceAction (ZagText text) {
-        super("Preference@Ctrl+P");
+        super("Preference@Ctrl+Alt+P");
         zagText = text;
     }
     public void run () {

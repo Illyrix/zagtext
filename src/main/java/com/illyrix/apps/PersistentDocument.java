@@ -27,8 +27,27 @@ public class PersistentDocument extends Document implements IDocumentListener {
         }
     }
 
-    public void saveToRemote() {
+    public String getFileNameWithSuffix(String pathandname) {
+        int start = pathandname.lastIndexOf("\\");
+        if (start != -1 ) {
+            return pathandname.substring(start + 1);
+        } else {
+            return null;
+        }
+    }
 
+    public void saveToRemote() throws Exception {
+        String filename = this.getFileName();
+        if (filename == null) return;
+        filename = getFileNameWithSuffix(filename);
+        Remote.upload(filename, get());
+    }
+
+    public void loadFromRemote() throws Exception {
+        String filename = this.getFileName();
+        if (filename == null) return;
+        filename = getFileNameWithSuffix(filename);
+        set(Remote.download(filename));
     }
 
     public void open() throws IOException {

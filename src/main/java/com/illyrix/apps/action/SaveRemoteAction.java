@@ -6,9 +6,9 @@ import org.eclipse.swt.widgets.FileDialog;
 
 import java.io.IOException;
 
-public class SaveAction extends Action {
+public class SaveRemoteAction extends Action {
     ZagText zagText;
-    public SaveAction(ZagText text) {
+    public SaveRemoteAction(ZagText text) {
         super("Save@Ctrl+S");
         zagText = text;
     }

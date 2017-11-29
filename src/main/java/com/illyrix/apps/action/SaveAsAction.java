@@ -2,19 +2,23 @@ package com.illyrix.apps.action;
 
 import com.illyrix.apps.ZagText;
 import org.eclipse.jface.action.Action;
+
+import java.io.IOException;
+
+import com.illyrix.apps.ZagText;
+import org.eclipse.jface.action.Action;
 import org.eclipse.swt.widgets.FileDialog;
 
 import java.io.IOException;
 
-public class SaveAction extends Action {
+public class SaveAsAction extends Action {
     ZagText zagText;
-    public SaveAction(ZagText text) {
-        super("Save@Ctrl+S");
+    public SaveAsAction(ZagText text) {
+        super("Save As@Ctrl+Alt+S");
         zagText = text;
     }
     public void run () {
-        if (!zagText.getDocument().isDirty()) return;
-        if (zagText.getDocument().getFileName() == null) {
+        try {
             FileDialog dlg = new FileDialog(zagText.getShell());
             if (zagText.getDocument().getFileName() != null) {
                 dlg.setFileName(zagText.getDocument().getFileName());
@@ -22,10 +26,8 @@ public class SaveAction extends Action {
             String temp = dlg.open();
             if (temp != null) {
                 zagText.getDocument().setFileName(temp);
+                zagText.getDocument().save();
             }
-        }
-        try {
-            zagText.getDocument().save();
         } catch (IOException e) {
             e.printStackTrace();
         }
